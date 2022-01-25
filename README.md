@@ -10,6 +10,7 @@ App created with SQL
 * [Tests](#Tests)
 * [Questions](#Questions)
 ## Installation 📥
+* Clone repository
 ## Usage
 ### Screenshots
 ### Video
