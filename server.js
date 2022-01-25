@@ -10,13 +10,14 @@ const { error } = require('console');
 const db = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'bootcamp1',
         database: 'tracker'
 });
 
 db.connect(function(err) {
     if (err) throw err;
     console.log('Connected to the tracker database!');
+    menuOptions(); //start the menu options prompt
 });
 //================== ==================
 //start app & given options to view all departments, roles, or employees; add a department, role, or employee; update an employee role  
@@ -35,38 +36,37 @@ const menuOptions = () => {
                 'add a role',
                 'add an employee',
                 'update an employee role'
-            ]
+            ],
         }
     ])
-    .then((answers) => {
-        const { menuChoice } = answers;
-        //view all departments
-        if (menuChoice === 'view all departments') {
-            console.log("departments"); //placeholder for function
-        };
-        if (menuChoice === 'view all roles') {
-            console.log("view roles"); //placeholder for function
-        };
-        if (menuChoice === 'view all employees') {
-            console.log("view employees"); //placeholder for function
-        };
-        if (menuChoice === 'add a department') {
-            console.log("add department"); //placeholder for function
-        };
-        if (menuChoice === 'add a role') {
-            console.log("add role"); //placeholder for function
-        };
-        if (menuChoice === 'add an employee') {
-            console.log("add employee"); //placeholder for function
-        };
-        if (menuChoice === 'update an employee role') {
-            console.log(departments); //placeholder for function
-        };
-    })
-    .catch((error) => {
-
-    })
-}
+    .then(answers => {
+            //view all departments
+            if (answers.menu === 'view all departments') {
+                console.log("departments"); //placeholder for function
+            };
+            if (answers.menu === 'view all roles') {
+                console.log("view roles"); //placeholder for function
+            };
+            if (answers.menu  === 'view all employees') {
+                console.log("view employees"); //placeholder for function
+            };
+            if (answers.menu === 'add a department') {
+                console.log("add department"); //placeholder for function
+            };
+            if (answers.menu === 'add a role') {
+                console.log("add role"); //placeholder for function
+            };
+            if (answers.menu === 'add an employee') {
+                console.log("add employee"); //placeholder for function
+            };
+            if (answers.menu === 'update an employee role') {
+                console.log(departments); //placeholder for function
+            };
+        })
+    .catch((err) => {
+        if (err) throw err;
+    });
+};
 // choose view departments -> given formatted table showing deparments names & ids
 
 // choose view roles -> given job title, role id, department of role, salary for role
