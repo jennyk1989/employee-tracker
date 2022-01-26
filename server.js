@@ -51,45 +51,59 @@ const menuOptions = () => {
             //view all departments
             if (answers.menu === 'view all departments') {
                 console.log("departments"); //placeholder for function
+                viewDepartments();
             };
             if (answers.menu === 'view all roles') {
                 console.log("view roles"); //placeholder for function
+                viewRoles();
             };
             if (answers.menu  === 'view all employees') {
                 console.log("view employees"); //placeholder for function
+                viewEmployees();
             };
             if (answers.menu === 'add a department') {
                 console.log("add department"); //placeholder for function
+                addDepartment();
             };
             if (answers.menu === 'add a role') {
                 console.log("add role"); //placeholder for function
+                addRole();
             };
             if (answers.menu === 'add an employee') {
                 console.log("add employee"); //placeholder for function
+                addEmployee();
             };
             if (answers.menu === 'update an employee role') {
-                console.log(departments); //placeholder for function
+                console.log('update employee role'); //placeholder for function
+                updateEmployee();
             };
             if (answers.menu === 'update a manager') {
                 console.log('updated manager'); //placeholder for function
+                updateManager();
             };
             if (answers.menu === 'view employees by manager') {
                 console.log('viewing employees by manager'); //placeholder for function
+                viewEmployeesByManager();
             };
             if (answers.menu === 'view employees by department') {
                 console.log('viewing employees by department'); //placeholder for function
+                viewEmployeesByDeparment();
             };
             if (answers.menu === 'delete a department') {
                 console.log('deleted a department'); //placeholder for function
+                deleteDepartment();
             };
             if (answers.menu === 'delete a role') {
                 console.log('deleted a role'); //placeholder for function
+                deleteRole();
             };
             if (answers.menu === 'delete an employee') {
                 console.log('deleted an employee'); //placeholder for function
+                deleteEmployee();
             };
             if (answers.menu === 'view total utilized budget of a department') {
                 console.log('viewing total utilized budget of a department'); //placeholder for function
+                viewDeparmentBudget();
             };
         })
     .catch((err) => {
@@ -97,29 +111,58 @@ const menuOptions = () => {
     });
 };
 // choose view departments -> given formatted table showing deparments names & ids
+const viewDepartments = () => {
 
+};
 // choose view roles -> given job title, role id, department of role, salary for role
+const viewRoles = () => {
 
+};
 // choose view employees -> given table showing employee data (ids, first & last names, job title, deparments, salaries, and their managers)
+const viewEmployees = () => {
 
+};
 // choose add department --> prompted to enter name of department & it's added to database
+const addDepartment = () => {
 
+};
 // choose add role -> prompted to enter name, salary, department of role and role is added to db
+const addRole = () => {
 
+};
 // choose add employee -> prompted to enter their 1st & last name, role, manager & then employee is added to db
+const addEmployee = () => {
 
+};
 // choose update employee role -> prompted to select employee to update & their new role & this info is updated in the db
+const updateEmployee = () => {
 
+};
 // update a manager
+const updateManager = () => {
 
+};
 // view employees by manager
+const viewEmployeesByManager = () => {
 
-// view employess by department
+};
+// view employees by department
+const viewEmployeesByDeparment = () => {
 
+};
 // delete a department
+const deleteDepartment = () => {
 
+};
 // delete a role 
+const deleteRole = () => {
 
+};
 // delete an employee
+const deleteEmployee = () => {
 
+};
 // View the total utilized budget of a department—in other words, the combined salaries of all employees in that department
+const viewDeparmentBudget = () => {
+
+};
