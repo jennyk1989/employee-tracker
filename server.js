@@ -109,3 +109,17 @@ const menuOptions = () => {
 // choose add employee -> prompted to enter their 1st & last name, role, manager & then employee is added to db
 
 // choose update employee role -> prompted to select employee to update & their new role & this info is updated in the db
+
+// update a manager
+
+// view employees by manager
+
+// view employess by department
+
+// delete a department
+
+// delete a role 
+
+// delete an employee
+
+// View the total utilized budget of a department—in other words, the combined salaries of all employees in that department
