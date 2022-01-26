@@ -4,16 +4,17 @@ const mysql = require('mysql2');
 const cTable = require('console.table');
 //import inquirer package for prompts
 const inquirer = require('inquirer');
-const { error } = require('console');
+
 
 //================== Create Connection to MySQL database ==================
+// create connection to the database (db)
 const db = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: 'bootcamp1',
         database: 'tracker'
 });
-
+// open the MySQL connection
 db.connect(function(err) {
     if (err) throw err;
     console.log('Connected to the tracker database!');
@@ -35,7 +36,14 @@ const menuOptions = () => {
                 'add a departent',
                 'add a role',
                 'add an employee',
-                'update an employee role'
+                'update an employee role',
+                'update a manager',
+                'view employees by manager',
+                'view employees by department',
+                'delete a department',
+                'delete a role',
+                'delete an employee',
+                'view total utilized budget of a department'
             ],
         }
     ])
@@ -61,6 +69,27 @@ const menuOptions = () => {
             };
             if (answers.menu === 'update an employee role') {
                 console.log(departments); //placeholder for function
+            };
+            if (answers.menu === 'update a manager') {
+                console.log('updated manager'); //placeholder for function
+            };
+            if (answers.menu === 'view employees by manager') {
+                console.log('viewing employees by manager'); //placeholder for function
+            };
+            if (answers.menu === 'view employees by department') {
+                console.log('viewing employees by department'); //placeholder for function
+            };
+            if (answers.menu === 'delete a department') {
+                console.log('deleted a department'); //placeholder for function
+            };
+            if (answers.menu === 'delete a role') {
+                console.log('deleted a role'); //placeholder for function
+            };
+            if (answers.menu === 'delete an employee') {
+                console.log('deleted an employee'); //placeholder for function
+            };
+            if (answers.menu === 'view total utilized budget of a department') {
+                console.log('viewing total utilized budget of a department'); //placeholder for function
             };
         })
     .catch((err) => {
