@@ -6,6 +6,7 @@ const cTable = require('console.table');
 const inquirer = require('inquirer');
 
 
+
 //================== Create Connection to MySQL database ==================
 // create connection to the database (db)
 const db = mysql.createConnection({
@@ -113,10 +114,18 @@ const menuOptions = () => {
 // choose view departments -> given formatted table showing deparment names & ids
 const viewDepartments = () => {
     console.log('Viewing all departments:');
-    let sql =  `SELECT department.department_name, department.department_id AS department
-                FROM role
-                INNER JOIN department ON `; 
-                // TODO: on finish
+    // department table -> department id & department name
+    const sql =  
+    `   SELECT department_name AS department
+        FROM department
+        INNER JOIN role
+        ON department.id = roles.department_id;
+    `; 
+    
+    db.query(sql, (err, data) => {
+        if (err) throw err;
+        console.table(data);
+    });
     
 };
 // choose view roles -> given job title, role id, department of role, salary for role
