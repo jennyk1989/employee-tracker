@@ -188,28 +188,20 @@ const addDepartment = () => {
             type: 'input',
             name: 'add',
             message: 'What is the name of the deparment?'
-        },
-        {
-            type: 'input',
-            name: 'addid',
-            message: 'What is the id of the deparment?'
         }
     ])
     .then (answer => {
-        const params = [answer.add, answer.addid];
         const sql = `INSERT INTO department (department_name) VALUES (?)`; //prepared statement
-        db.query(sql, params, (err, res) => {
+        db.query(sql, answer.add, (err, res) => {
             if (err) throw err;
             console.log(`Added new department: ${answer.add}`);
-            viewAddedDepartment(res);
+            viewAddedDepartment();
         });
-        const viewAddedDepartment = (res) => {
+        const viewAddedDepartment = () => {
             const sql =  
-            `   SELECT department_name AS Departments, department_id AS DepartmentID
-                FROM department
-                INNER JOIN role
-                ON department.id = role.id; 
+            `   SELECT * FROM department;
             `; 
+            
             db.query(sql, (err, data) => {
                 if (err) throw err;
                 console.table(data); //displays the table in the console
@@ -217,15 +209,54 @@ const addDepartment = () => {
                 //return to menu options
                 menuOptions();
             });
-        };
+        }
     });
 };
 
 // ========================= add roles =========================
 // choose add role -> prompted to enter name, salary, department of role and role is added to db
 const addRole = () => {
-    console.log('Added a role:');
-
+    // prompt user to enter the name of the department
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'role',
+            message: 'What is the name of the new role?'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the salary of the new role?'
+        },
+        {
+            type: 'input',
+            name: 'department',
+            message: 'What is the department id of the new role?'
+        },
+    ])
+    .then (answer => {
+            const params = [answer.role, answer.salary, answer.department];
+            const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`; //prepared statement
+            db.query(sql, params , (err, res) => {
+                if (err) throw err;
+                console.log(`Added new role: ${answer.role}`);
+                viewAddedRole();
+            });
+            const viewAddedRole = () => {
+                const sql =  
+                `   SELECT *
+                    FROM role;
+                `; 
+                
+                db.query(sql, (err, data) => {
+                    if (err) throw err;
+                    console.table(data); //displays the table in the console
+                    console.log('Viewing added role!');
+                    //return to menu options
+                    menuOptions();
+                });
+            }
+        });
 };
 
 // ========================= add employee =========================
