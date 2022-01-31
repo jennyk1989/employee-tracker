@@ -34,7 +34,7 @@ const menuOptions = () => {
                 'view all departments',
                 'view all roles',
                 'view all employees',
-                'add a departent',
+                'add a department',
                 'add a role',
                 'add an employee',
                 'update an employee role',
@@ -158,15 +158,67 @@ const viewRoles = () => {
 // ========================= view employees =========================
 // choose view employees -> given table showing employee data (ids, first & last names, job title, deparments, salaries, and their managers)
 const viewEmployees = () => {
-    console.log('Viewing all employees:');
-
+    // employee table: ids, names, 
+    // role table: title, salary
+    // department table: department, manager
+    const sql =  
+    `   SELECT employee.id, first_name, last_name, title, department_name, salary, manager_id
+        FROM employee
+        INNER JOIN role
+        ON role.id = employee.id
+        INNER JOIN department
+        ON department.id = employee.id;
+    `; 
+    
+    db.query(sql, (err, data) => {
+        if (err) throw err;
+        console.table(data); //displays the table in the console
+        console.log('Viewing all employees!');
+        //return to menu options
+        menuOptions();
+    });
 };
 
 // ========================= add departments =========================
 // choose add department --> prompted to enter name of department & it's added to database
 const addDepartment = () => {
-    console.log('Added a departments:');
-
+    // prompt user to enter the name of the department
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'add',
+            message: 'What is the name of the deparment?'
+        },
+        {
+            type: 'input',
+            name: 'addid',
+            message: 'What is the id of the deparment?'
+        }
+    ])
+    .then (answer => {
+        const params = [answer.add, answer.addid];
+        const sql = `INSERT INTO department (department_name) VALUES (?)`; //prepared statement
+        db.query(sql, params, (err, res) => {
+            if (err) throw err;
+            console.log(`Added new department: ${answer.add}`);
+            viewAddedDepartment(res);
+        });
+        const viewAddedDepartment = (res) => {
+            const sql =  
+            `   SELECT department_name AS Departments, department_id AS DepartmentID
+                FROM department
+                INNER JOIN role
+                ON department.id = role.id; 
+            `; 
+            db.query(sql, (err, data) => {
+                if (err) throw err;
+                console.table(data); //displays the table in the console
+                console.log('Viewing added department!');
+                //return to menu options
+                menuOptions();
+            });
+        };
+    });
 };
 
 // ========================= add roles =========================
@@ -175,39 +227,52 @@ const addRole = () => {
     console.log('Added a role:');
 
 };
+
+// ========================= add employee =========================
 // choose add employee -> prompted to enter their 1st & last name, role, manager & then employee is added to db
 const addEmployee = () => {
     console.log('Added an employee:');
 
 };
+
+// ========================= update employee role =========================
 // choose update employee role -> prompted to select employee to update & their new role & this info is updated in the db
 const updateEmployee = () => {
     console.log('Updated an employee:');
 };
+// ========================= update manager =========================
 // update a manager
 const updateManager = () => {
     console.log('Added a manager:');
 };
-// view employees by manager
+// ========================= view employee by manager =========================
 const viewEmployeesByManager = () => {
     console.log('Viewing employees by manager:');
 };
-// view employees by department
+// ========================= view employee by department =========================
 const viewEmployeesByDeparment = () => {
     console.log('Viewing employees by department:');
 };
+
+// ========================= delete department =========================
 // delete a department
 const deleteDepartment = () => {
     console.log('Deleted a departments:');
 };
+
+// ========================= delete role =========================
 // delete a role 
 const deleteRole = () => {
     console.log('Deleted an role:');
 };
+
+// ========================= delete employee =========================
 // delete an employee
 const deleteEmployee = () => {
     console.log('Deleted an employee:');
 };
+
+// ========================= view utilized budget =========================
 // View the total utilized budget of a department—in other words, the combined salaries of all employees in that department
 const viewDeparmentBudget = () => {
     console.log('Viewing total utilized department budget:');
