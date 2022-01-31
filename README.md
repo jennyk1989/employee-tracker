@@ -14,6 +14,7 @@ App created with SQL
 ## Usage
 ### Screenshots
 ### Video
+Link to video on [GitHub](https://github.com/jennyk1989/employee-tracker/assets)
 ## Licence 📃
 MIT License
 ## Contribution 💡
