@@ -111,38 +111,49 @@ const menuOptions = () => {
         if (err) throw err;
     });
 };
+// ========================= view departments ========================= 
 // choose view departments -> given formatted table showing deparment names & ids
 const viewDepartments = () => {
-    console.log('Viewing all departments:');
-    // department table -> department id & department name
+    // department table -> department name
+    // role table -> department id
+    // both tables share "id"
     const sql =  
-    `   SELECT department_name AS department
+    `   SELECT department_name AS Departments, department_id AS DepartmentID
         FROM department
         INNER JOIN role
-        ON department.id = roles.department_id;
+        ON department.id = role.id; 
     `; 
     
     db.query(sql, (err, data) => {
         if (err) throw err;
-        console.table(data);
+        console.table(data); //displays the table in the console
+        console.log('Viewing all departments!');
+        //return to menu options
+        menuOptions();
     });
-    
 };
+// ========================= view roles =========================
 // choose view roles -> given job title, role id, department of role, salary for role
 const viewRoles = () => {
+    
     console.log('Viewing all employee roles:');
 
 };
+// ========================= view employees =========================
 // choose view employees -> given table showing employee data (ids, first & last names, job title, deparments, salaries, and their managers)
 const viewEmployees = () => {
     console.log('Viewing all employees:');
 
 };
+
+// ========================= add departments =========================
 // choose add department --> prompted to enter name of department & it's added to database
 const addDepartment = () => {
     console.log('Added a departments:');
 
 };
+
+// ========================= add roles =========================
 // choose add role -> prompted to enter name, salary, department of role and role is added to db
 const addRole = () => {
     console.log('Added a role:');
