@@ -134,10 +134,26 @@ const viewDepartments = () => {
 };
 // ========================= view roles =========================
 // choose view roles -> given job title, role id, department of role, salary for role
+// role table: title, salary
+// department of role -> get from role->department_id --> department->department_name
+// employee table: role_id
 const viewRoles = () => {
+    const sql =  
+    `   SELECT title, role_id, department_name, salary
+        FROM role
+        INNER JOIN employee
+        ON employee.id = role.id
+        INNER JOIN department
+        ON department.id = role.id;
+    `; 
     
-    console.log('Viewing all employee roles:');
-
+    db.query(sql, (err, data) => {
+        if (err) throw err;
+        console.table(data); //displays the table in the console
+        console.log('Viewing all roles!');
+        //return to menu options
+        menuOptions();
+    });
 };
 // ========================= view employees =========================
 // choose view employees -> given table showing employee data (ids, first & last names, job title, deparments, salaries, and their managers)
