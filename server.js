@@ -38,13 +38,14 @@ const menuOptions = () => {
                 'add a role',
                 'add an employee',
                 'update an employee role',
-                'update a manager',
-                'view employees by manager',
-                'view employees by department',
-                'delete a department',
-                'delete a role',
-                'delete an employee',
-                'view total utilized budget of a department'
+                //bonus 'update a manager',
+                //bonus 'view employees by manager',
+                //bonus 'view employees by department',
+                //bonus 'delete a department',
+                //bonus 'delete a role',
+                //bonus 'delete an employee',
+                //bonus 'view total utilized budget of a department',
+                'exit'
             ],
         }
     ])
@@ -105,6 +106,10 @@ const menuOptions = () => {
             if (answers.menu === 'view total utilized budget of a department') {
                 console.log('viewing total utilized budget of a department'); //placeholder for function
                 viewDeparmentBudget();
+            };
+            if (answers.menu === 'exit') {
+                console.log('application exited');
+                viewExit();
             };
         })
     .catch((err) => {
@@ -235,42 +240,132 @@ const addRole = () => {
         },
     ])
     .then (answer => {
-            const params = [answer.role, answer.salary, answer.department];
-            const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`; //prepared statement
-            db.query(sql, params , (err, res) => {
-                if (err) throw err;
-                console.log(`Added new role: ${answer.role}`);
-                viewAddedRole();
-            });
-            const viewAddedRole = () => {
-                const sql =  
-                `   SELECT *
-                    FROM role;
-                `; 
+        const params = [answer.role, answer.salary, answer.department];
+        const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`; //prepared statement
+        db.query(sql, params , (err, res) => {
+            if (err) throw err;
+            console.log(`Added new role: ${answer.role}`);
+            viewAddedRole();
+        });
+        const viewAddedRole = () => {
+            const sql =  
+            `   SELECT *
+                FROM role;
+            `; 
                 
-                db.query(sql, (err, data) => {
-                    if (err) throw err;
-                    console.table(data); //displays the table in the console
-                    console.log('Viewing added role!');
-                    //return to menu options
-                    menuOptions();
-                });
-            }
+            db.query(sql, (err, data) => {
+                if (err) throw err;
+                console.table(data); //displays the table in the console
+                console.log('Viewing added role!');
+                //return to menu options
+                menuOptions();
+            });
+        }
         });
 };
 
 // ========================= add employee =========================
 // choose add employee -> prompted to enter their 1st & last name, role, manager & then employee is added to db
 const addEmployee = () => {
-    console.log('Added an employee:');
-
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first',
+            message: 'What is the first name of the employee?'
+        },
+        {
+            type: 'input',
+            name: 'last',
+            message: 'What is the last name of the employee?'
+        },
+        {
+            type: 'input',
+            name: 'role',
+            message: 'What is the role id (usually 5 digits) of the employee?'
+        },
+        {
+            type: 'input',
+            name: 'manager',
+            message: 'What is the manager id (usually 2 digits) for the employee?'
+        },
+    ])
+    .then(answer => {
+        const params = [answer.first, answer.last, answer.role, answer.manager];
+        const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)`;
+        db.query(sql, params , (err, res) => {
+            if (err) throw err;
+            console.log(`Added new employee: ${answer.first}`);
+            viewAddedEmployee();
+        });
+        const viewAddedEmployee = () => {
+            const sql = `SELECT * FROM employee`;
+            db.query(sql, (err, res) => {
+                console.table(res);
+                console.log('Viewing added employee!');
+                console.log('\n');
+                menuOptions(); 
+            });
+        };
+    });
 };
 
 // ========================= update employee role =========================
 // choose update employee role -> prompted to select employee to update & their new role & this info is updated in the db
 const updateEmployee = () => {
-    console.log('Updated an employee:');
+    const sqlEmployee = `SELECT * FROM employee`;
+    db.query(sqlEmployee, (err, res) => {
+        if (err) throw err;
+        const allEmployees = res.map(({ id, first_name, last_name, role_id, manager_id}) => {({ name: first_name + " " + last_name, value: id });
+        
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'name',
+                message: 'For which employee do you want to update the role?',
+                choices: allEmployees
+            }
+        ])
+        .then(answer => {
+            const changedEmployee = answer.name;
+            const sql = `SELECT * FROM role`;
+            db.query(sql, (err, res) => {
+                if (err) throw err;
+                const rolesList = data.map(({ id, title }) => ({ name: title, value: id}));
+                    
+                inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'role',
+                        message: 'What is the new role for the employee?',
+                        choices: rolesList
+                    }
+                ])
+                .then(answer => {
+                    const newRole = answer.role;
+                    const lastSql = `Update employee VALUE role_id = ? WHERE id = ?`;
+                    db.query(lastSql, newRole, (err, res) => {
+                        if (err) throw err;
+                        console.log('Updated employee role!');
+                        console.log('\n');
+                        viewEmployees();
+                        });
+                    });
+                });
+            });
+        });
+    });
 };
+
+const viewExit = () => {
+    console.log('Database summary:');
+    console.log('\n');
+    const departmentSql = `SELECT * FROM department`;
+    db.query(departmentSql, (err, res) => {
+
+    });
+}
+// **************************** BONUS ****************************
+
 // ========================= update manager =========================
 // update a manager
 const updateManager = () => {
