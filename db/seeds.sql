@@ -14,12 +14,12 @@ VALUES
 (4, "Unspeakable", 200000, 444),
 (5, "Junior Minister", 180000, 555);
 
-INSERT INTO employee (id, first_name, last_name, role_id)
+INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES
-(1, "Hermione", "Granger", 11100),
-(2, "Harry", "Potter", 22299),
-(3, "Luna", "Lovegood", 33388),
-(4, "Lucius", "Malfoy", 44477),
-(5, "Ron", "Weasley", 55566);
+(1, "Hermione", "Granger", 11100, 11),
+(2, "Harry", "Potter", 22299, 22),
+(3, "Luna", "Lovegood", 33388, 33),
+(4, "Lucius", "Malfoy", 44477, 44),
+(5, "Ron", "Weasley", 55566, 55);
 
 

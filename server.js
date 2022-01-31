@@ -361,9 +361,26 @@ const viewExit = () => {
     console.log('\n');
     const departmentSql = `SELECT * FROM department`;
     db.query(departmentSql, (err, res) => {
-
+        if (err) throw err;
+        console.log('\n');
+        console.table(res);
+        console.log('\n');
     });
-}
+    const roleSql = `SELECT * FROM role`;
+    db.query(roleSql, (err, res) => {
+        if (err) throw err;
+        console.log('\n');
+        console.table(res);
+        console.log('\n');
+    });
+    const employeeSql = `SELECT * FROM employee`;
+    db.query(employeeSql, (err, res) => {
+        if (err) throw err;
+        console.log('\n');
+        console.table(res);
+        console.log('\n');
+    });
+};
 // **************************** BONUS ****************************
 
 // ========================= update manager =========================
