@@ -1,7 +1,7 @@
 # Employee Tracker
 ![badge](https://img.shields.io/badge/License-MIT-blue)
 ## Description
-App created with SQL
+The assignment is to build a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL.
 ## Table of Contents 
 * [Installation](#Installation)
 * [Usage](#Usage)
@@ -11,6 +11,9 @@ App created with SQL
 * [Questions](#Questions)
 ## Installation 📥
 * Clone repository
+* Initiate the database (mysql -u root -p & source db files)
+* Install required npm packages (mysql2, inquirer, console.table)
+* Run the application (npm start)
 ## Usage
 ### Screenshots
 Menu options at start of application:
