@@ -38,14 +38,7 @@ const menuOptions = () => {
                 'add a role',
                 'add an employee',
                 'update an employee role',
-                //bonus 'update a manager',
-                //bonus 'view employees by manager',
-                //bonus 'view employees by department',
-                //bonus 'delete a department',
-                //bonus 'delete a role',
-                //bonus 'delete an employee',
-                //bonus 'view total utilized budget of a department',
-                'exit'
+                'exit (view all final tables)'
             ],
         }
     ])
@@ -79,35 +72,7 @@ const menuOptions = () => {
                 console.log('update employee role'); //placeholder for function
                 updateEmployee();
             };
-            if (answers.menu === 'update a manager') {
-                console.log('updated manager'); //placeholder for function
-                updateManager();
-            };
-            if (answers.menu === 'view employees by manager') {
-                console.log('viewing employees by manager'); //placeholder for function
-                viewEmployeesByManager();
-            };
-            if (answers.menu === 'view employees by department') {
-                console.log('viewing employees by department'); //placeholder for function
-                viewEmployeesByDeparment();
-            };
-            if (answers.menu === 'delete a department') {
-                console.log('deleted a department'); //placeholder for function
-                deleteDepartment();
-            };
-            if (answers.menu === 'delete a role') {
-                console.log('deleted a role'); //placeholder for function
-                deleteRole();
-            };
-            if (answers.menu === 'delete an employee') {
-                console.log('deleted an employee'); //placeholder for function
-                deleteEmployee();
-            };
-            if (answers.menu === 'view total utilized budget of a department') {
-                console.log('viewing total utilized budget of a department'); //placeholder for function
-                viewDeparmentBudget();
-            };
-            if (answers.menu === 'exit') {
+            if (answers.menu === 'exit (view all final tables)') {
                 console.log('application exited');
                 viewExit();
             };
@@ -312,46 +277,51 @@ const addEmployee = () => {
 // ========================= update employee role =========================
 // choose update employee role -> prompted to select employee to update & their new role & this info is updated in the db
 const updateEmployee = () => {
-    const sqlEmployee = `SELECT * FROM employee`;
-    db.query(sqlEmployee, (err, res) => {
-        if (err) throw err;
-        const allEmployees = res.map(({ id, first_name, last_name, role_id, manager_id}) => {({ name: first_name + " " + last_name, value: id });
-        
+    //first show list of employees available to update
+    const sqlEmployeeList = `SELECT CONCAT (first_name, ' ', last_name) AS 'name', id FROM employee`;
+    db.query(sqlEmployeeList, (err, res) => {
+        console.log(res);
+        //response returned as an array with objects [{ name: 'Hermonine Granger', id: 1 }, { name: 'Harry Potter', id: 2 }]
+        //ititerate thru this array to get out a list of employee names
+        let employeeList = []; //array that will hold the list of employees
+        for (let i = 0; i < res.length; i++) {
+            const idList = res[i].id;
+            employeeList.push(idList);
+        };
         inquirer.prompt([
             {
                 type: 'list',
-                name: 'name',
-                message: 'For which employee do you want to update the role?',
-                choices: allEmployees
+                name: 'single',
+                message: 'Choose the employee id you wanted updated (employee names and ids listed above)',
+                choices: employeeList
+            },
+            {
+                type: 'input',
+                name: 'newRole',
+                message: 'What is role id of the new role?'
             }
         ])
         .then(answer => {
-            const changedEmployee = answer.name;
-            const sql = `SELECT * FROM role`;
-            db.query(sql, (err, res) => {
+            //need to get id # out of response
+            let chosenEmployee = answer.single;
+            let chosenRole = answer.newRole;
+            const updateRole = `UPDATE employee SET ? WHERE ?`;
+            const updateValues = [{role_id: chosenRole}, {id: chosenEmployee}];
+            db.query(updateRole, updateValues, (err, res) => {
                 if (err) throw err;
-                const rolesList = data.map(({ id, title }) => ({ name: title, value: id}));
-                    
-                inquirer.prompt([
-                    {
-                        type: 'list',
-                        name: 'role',
-                        message: 'What is the new role for the employee?',
-                        choices: rolesList
-                    }
-                ])
-                .then(answer => {
-                    const newRole = answer.role;
-                    const lastSql = `Update employee VALUE role_id = ? WHERE id = ?`;
-                    db.query(lastSql, newRole, (err, res) => {
-                        if (err) throw err;
-                        console.log('Updated employee role!');
-                        console.log('\n');
-                        viewEmployees();
-                        });
-                    });
-                });
+                console.log('Employee role has been updated!');
+                updatedRoleTable();
             });
+            //display updated role in table
+            const updatedRoleTable = () => {
+                const sqlRole = `SELECT * FROM employee`;
+                db.query(sqlRole, (err, res) => {
+                    console.table(res);
+                    console.log('Viewing updated role in table!');
+                    console.log('\n');
+                    menuOptions(); 
+                });
+            };
         });
     });
 };
@@ -380,43 +350,4 @@ const viewExit = () => {
         console.table(res);
         console.log('\n');
     });
-};
-// **************************** BONUS ****************************
-
-// ========================= update manager =========================
-// update a manager
-const updateManager = () => {
-    console.log('Added a manager:');
-};
-// ========================= view employee by manager =========================
-const viewEmployeesByManager = () => {
-    console.log('Viewing employees by manager:');
-};
-// ========================= view employee by department =========================
-const viewEmployeesByDeparment = () => {
-    console.log('Viewing employees by department:');
-};
-
-// ========================= delete department =========================
-// delete a department
-const deleteDepartment = () => {
-    console.log('Deleted a departments:');
-};
-
-// ========================= delete role =========================
-// delete a role 
-const deleteRole = () => {
-    console.log('Deleted an role:');
-};
-
-// ========================= delete employee =========================
-// delete an employee
-const deleteEmployee = () => {
-    console.log('Deleted an employee:');
-};
-
-// ========================= view utilized budget =========================
-// View the total utilized budget of a department—in other words, the combined salaries of all employees in that department
-const viewDeparmentBudget = () => {
-    console.log('Viewing total utilized department budget:');
 };
