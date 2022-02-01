@@ -27,7 +27,7 @@ Demonstration of output of "update" menu option
 Demonstration of output of "exit" menu option
 <img width="898" alt="exit" src="https://user-images.githubusercontent.com/92952780/152029654-6c983325-eb4c-4b6e-a808-1a3a7e0e3734.png">
 ### Video
-Link to video on [GitHub](https://github.com/jennyk1989/employee-tracker/assets)
+https://user-images.githubusercontent.com/92952780/152033303-2da80654-5ae3-450d-b787-3c2bee1e2d30.mp4
 ## Licence 📃
 MIT License
 ## Contribution 💡
