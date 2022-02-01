@@ -312,47 +312,32 @@ const addEmployee = () => {
 // ========================= update employee role =========================
 // choose update employee role -> prompted to select employee to update & their new role & this info is updated in the db
 const updateEmployee = () => {
-    const sqlEmployee = `SELECT * FROM employee`;
-    db.query(sqlEmployee, (err, res) => {
-        if (err) throw err;
-        const allEmployees = res.map(({ id, first_name, last_name, role_id, manager_id}) => {({ name: first_name + " " + last_name, value: id });
-        
+    //first show list of employees available to update
+    const sqlEmployeeList = `SELECT CONCAT (first_name, ' ', last_name) AS 'name' FROM employee`;
+    db.query(sqlEmployeeList, (err, res) => {
+        console.log(res);
+        //response returned as an array with objects [{ name: 'Hermonine Granger' }, { name: 'Harry Potter' }]
+        //ititerate thru this array to get out a list of employee names
+        for (let i = 0; i < res.length; i++) {
+            const resNames = res[i].name;
+            console.log(resNames);
+            return resNames;
+        };
+        let singledOut = [resNames];
         inquirer.prompt([
             {
                 type: 'list',
-                name: 'name',
-                message: 'For which employee do you want to update the role?',
-                choices: allEmployees
+                name: 'single',
+                message: 'Choose the employee you wanted updated',
+                choices: [singledOut]
             }
         ])
         .then(answer => {
-            const changedEmployee = answer.name;
-            const sql = `SELECT * FROM role`;
-            db.query(sql, (err, res) => {
-                if (err) throw err;
-                const rolesList = data.map(({ id, title }) => ({ name: title, value: id}));
-                    
-                inquirer.prompt([
-                    {
-                        type: 'list',
-                        name: 'role',
-                        message: 'What is the new role for the employee?',
-                        choices: rolesList
-                    }
-                ])
-                .then(answer => {
-                    const newRole = answer.role;
-                    const lastSql = `Update employee VALUE role_id = ? WHERE id = ?`;
-                    db.query(lastSql, newRole, (err, res) => {
-                        if (err) throw err;
-                        console.log('Updated employee role!');
-                        console.log('\n');
-                        viewEmployees();
-                        });
-                    });
-                });
-            });
+            chosenEmployee = answer.single;
+            console.log(chosenEmployee);
         });
+        
+        
     });
 };
 
